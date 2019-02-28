@@ -1,5 +1,10 @@
-H = int(input())
-A = int(input())
-B = int(input())
+h = int(input())
+up = int(input())
+down = int(input())
 
-print(int((H - A) // (A - B) + 1))
+if (h - up) % (up - down) > 0:
+    time = (h - up) // (up - down) + 2
+else:
+    time = (h - up) // (up - down) + 1
+
+print(time)
