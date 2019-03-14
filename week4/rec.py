@@ -3,4 +3,6 @@ def rec():
     if n != 0:
         rec()
         print(n)
+
+
 rec()
