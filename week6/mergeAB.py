@@ -22,4 +22,4 @@ def merge(l1, l2):
 
 A = list(map(int, input().split()))
 B = list(map(int, input().split()))
-print(merge(A, B))
+print(*merge(A, B))
