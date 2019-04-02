@@ -1,23 +1,20 @@
-def merge(l1, l2):
-    sorted_list = []
+def merge(a, b):
+    pa = 0
+    pb = 0
+    result = []
 
-    # Copy both the args to make sure the original lists are not
-    # modified
-    l1 = l1[:]
-    l2 = l2[:]
-
-    while (l1 and l2):
-        if (l1[0] <= l2[0]):  # Compare both heads
-            item = l1.pop(0)  # Pop from the head
-            sorted_list.append(item)
+    while pa < len(a) and pb < len(b):
+        if a[pa] <= b[pb]:
+            result.append(a[pa])
+            pa += 1
         else:
-            item = l2.pop(0)
-            sorted_list.append(item)
+            result.append(b[pb])
+            pb += 1
 
-    # Add the remaining of the lists
-    sorted_list.extend(l1 if l1 else l2)
+    remained = a[pa:] + b[pb:]
+    result.extend(remained)
 
-    return sorted_list
+    return result
 
 
 A = list(map(int, input().split()))

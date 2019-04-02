@@ -9,7 +9,7 @@ def lensort(cort):
     return cort[1]
 
 
-def nearestGrob(safe_place, vilage):
+def nearestGrob(safe_place, vilage, n, m):
     safe_place = create_cortage(safe_place)
     vilage = create_cortage(vilage)
     safe_place.sort(key=lensort)
