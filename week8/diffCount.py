@@ -1,1 +1,12 @@
-num = map(int, input().split())
+print(
+    len(
+        set(
+            map(
+                int,
+                open(
+                    'input.txt'
+                ).readline().strip().split()
+            )
+        )
+    )
+)
