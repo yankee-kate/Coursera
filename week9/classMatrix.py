@@ -1,11 +1,11 @@
-from sys import stdin
 import copy
+from sys import stdin
 
 
 class MatrixError(BaseException):
-    def __init__(self, matrix1, matrix2):
-        self.first = matrix1
-        self.second = matrix2
+    def __init__(self, Matrix, other):
+        self.matrix1 = Matrix
+        self.matrix2 = other
 
 
 class Matrix:
@@ -13,59 +13,47 @@ class Matrix:
         self.lst = copy.deepcopy(lst)
 
     def __str__(self):
-        lst_to_str = ''
-        for i in range(len(self.lst) - 1):
-            lst_to_str += '\t'.join(map(str, self.lst[i])) + '\n'
-        lst_to_str += '\t'.join(map(str, self.lst[-1]))
-        return lst_to_str
+        rows = []
+        for row in self.lst:
+            rows.append('\t'.join(map(str, row)))
+        return '\n'.join(rows)
 
     def size(self):
         size_cort = (len(self.lst), len(self.lst[0]))
         return size_cort
 
     def __add__(self, other):
-        res_array = list()
-        error = MatrixError(self, other)
-        if len(self.lst) != len(other.lst):
-            raise error
-        for i in range(len(self.lst)):
-            new_lst = list()
-            if len(self.lst[i]) != len(other.lst[i]):
-                raise error
-            for j in range(len(self.lst[i])):
-                new_lst.append(self.lst[i][j] + other.lst[i][j])
-            res_array.append(new_lst)
+        if len(self.lst) == len(other.lst):
+            res_array = copy.deepcopy(self.lst)
+            for i in range(len(self.lst)):
+                for j in range(len(self.lst[i])):
+                    res_array[i][j] += other.lst[i][j]
+        else:
+            raise MatrixError(self, other)
         return Matrix(res_array)
 
     def __mul__(self, other):
         if other == 0:
             return 0
         elif isinstance(other, int) or isinstance(other, float):
-            res_array = list()
+            res_array = copy.deepcopy(self.lst)
             for i in range(len(self.lst)):
-                new_lst = list()
                 for j in range(len(self.lst[i])):
-                    new_lst.append(self.lst[i][j] * other)
-                res_array.append(new_lst)
+                    res_array[i][j] *= other
         else:
-            error = MatrixError(self, other)
-            raise error
+            raise MatrixError(self, other)
         return Matrix(res_array)
 
     __rmul__ = __mul__
 
+    @staticmethod
+    def transposed(m):
+        return Matrix(list(map(list, zip(*m.lst))))
+
     def transpose(self):
+        new_lst = list(map(list, zip(*self.lst)))
+        self.lst = new_lst
+        return self
 
-
-
-
-m1 = Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
-m2 = Matrix([[0, 1, 0], [20, 0, -1], [20, 0]])
-
-try:
-    print(m1 + m2)
-except MatrixError as me:
-    print('Cannot summarize next arrays: \n', me.first,
-          '\n, second param: \n', me.second, sep='')
 
 exec(stdin.read())
